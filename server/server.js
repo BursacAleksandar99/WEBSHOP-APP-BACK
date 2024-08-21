@@ -10,9 +10,12 @@ const db = mysql.createConnection({
     database: 'mynewshopapp'
 });
 
-app.get('/', (req, res) => {
-    res.send("Hello World");
-});
+// app.get('/', (req, res) => {
+//     res.send("Hello World");
+// });
+app.use(express.json());
+
+app.use('/users', require('./routes/Users'));
 
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
