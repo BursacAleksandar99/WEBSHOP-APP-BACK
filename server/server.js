@@ -6,7 +6,7 @@ const port = 3001;
 const db = mysql.createConnection({
     host: 'localhost',
     user: 'root',
-    password: 'password',
+    password: 'partizan123',
     database: 'mynewshopapp'
 });
 
@@ -18,3 +18,5 @@ app.listen(port, () => {
     console.log(`Server running on port ${port}`);
     
 });
+
+module.exports = db;
