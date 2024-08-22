@@ -5,3 +5,16 @@ npm install express mysql2
 npm install axios
 npm install bootstrap
 npm install react-router-dom
+npm install bcrypt body-parser
+npm install sequelize
+npm install -g sequelize-cli
+npm install jsonwebtoken
+npm install cors
+
+
+
+
+
+
+
+npm install axios
