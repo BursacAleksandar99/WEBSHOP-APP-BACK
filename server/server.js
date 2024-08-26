@@ -5,6 +5,7 @@ const port = 3001;
 const cors = require('cors');
 const db = require('./models');
 const processorsRoute = require('./routes/Processors');
+const path = require('path');
 
 
 // const db = mysql.createConnection({
@@ -28,6 +29,8 @@ app.use(express.json());
 app.use('/users', require('./routes/Users'));
 
 app.use('/processors', processorsRoute);
+
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 
 

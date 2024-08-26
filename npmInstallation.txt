@@ -10,6 +10,8 @@ npm install sequelize
 npm install -g sequelize-cli
 npm install jsonwebtoken
 npm install cors
+npm install multer
+mkdir uploads
 
 
 
