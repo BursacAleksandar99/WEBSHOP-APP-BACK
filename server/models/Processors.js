@@ -29,6 +29,10 @@ module.exports = (sequelize, DataTypes) => {
         price: {
             type: DataTypes.FLOAT,
             allowNull: false,
+        },
+        imageUrl: {
+            type: DataTypes.STRING,
+            allowNull: true,
         }
     });
 
