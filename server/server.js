@@ -5,6 +5,8 @@ const port = 3001;
 const cors = require('cors');
 const db = require('./models');
 const processorsRoute = require('./routes/Processors');
+const graphicsCardRoute = require('./routes/GraphicsCards');
+const motherboardRoute = require('./routes/Motherboards');
 const path = require('path');
 
 
@@ -29,6 +31,10 @@ app.use(express.json());
 app.use('/users', require('./routes/Users'));
 
 app.use('/processors', processorsRoute);
+
+app.use('/graphicsCards', graphicsCardRoute);
+
+app.use('/motherboards', motherboardRoute);
 
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
