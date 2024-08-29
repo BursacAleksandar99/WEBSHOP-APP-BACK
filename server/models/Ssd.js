@@ -1,8 +1,10 @@
 const { DataTypes } = require("sequelize");
 const { sequelize } = require(".");
 
+
+
 module.exports = (sequelize, DataTypes) => {
-    const Motherboards = sequelize.define("Motherboards", {
+    const Ssd = sequelize.define("Ssd", {
         name: {
             type: DataTypes.STRING,
             allowNull: false,
@@ -11,32 +13,31 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false,
         },
-        memoryType: {
+        interface:{
             type: DataTypes.STRING,
             allowNull: false,
         },
-        maxMemory: {
+        memorySize: {
             type: DataTypes.INTEGER,
             allowNull: false,
         },
-        chipset: {
-            type: DataTypes.STRING,
+        writingSpeed: {
+            type: DataTypes.INTEGER,
             allowNull: false,
         },
-        cpu: {
-            type: DataTypes.STRING,
-            allowNull: false,
-        },
-        price: {
+        readingSpeed:{
             type: DataTypes.INTEGER,
             allowNull: false,
         },
         imageUrl: {
             type: DataTypes.STRING,
             allowNull: true,
+        },
+        price:{
+            type: DataTypes.INTEGER,
+            allowNull: false
         }
+    })
 
-    });
-
-    return Motherboards;
+    return Ssd;
 }

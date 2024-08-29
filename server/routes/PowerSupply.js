@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { GraphicsCards } = require('../models');
+const { PowerSupply } = require('../models');
 const multer = require('multer');
 const path = require('path');
 
@@ -15,27 +15,27 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 router.post('/', upload.single('imageUrl'), async(req, res) => {
-    const {name, model, memorySize, 
-        memoryType, boostClock, baseClock, tdp, price, } = req.body;
+    const {name, model, width, height, deep, certificate,
+        price} = req.body;
     const imageUrl = req.file ? req.file.path: null;
     console.log("Image URL after replace:", imageUrl);
     try{
-        const newGraphicCard = await GraphicsCards.create({
-            name, model, memorySize, 
-        memoryType, boostClock, baseClock, tdp, price, imageUrl
+        const newPowerSupply = await PowerSupply.create({
+            name, model, width, height, deep, certificate,
+        price, imageUrl
         });
-        res.json(newGraphicCard);
+        res.json(newPowerSupply);
     }catch(error){
-        res.status(500).json({error: "Faild to create graphic card"});
+        res.status(500).json({error: "Faild to create power supply"});
     }
-})
+});
 
 router.get('/', async(req, res) => {
     try{
-        const graphicsCards = await GraphicsCards.findAll();
-        res.json(graphicsCards);
-    } catch(error){
-        res.status(500).json({error: "Faild to fetch graphics cards!"});
+        const powerSupply = await PowerSupply.findAll();
+        res.json(powerSupply);
+    }catch(error){
+        res.status(500).json({error: "Faild to fetch power supply!"});
     }
 })
 

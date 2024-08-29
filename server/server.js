@@ -7,6 +7,9 @@ const db = require('./models');
 const processorsRoute = require('./routes/Processors');
 const graphicsCardRoute = require('./routes/GraphicsCards');
 const motherboardRoute = require('./routes/Motherboards');
+const ssdRoute = require('./routes/Ssd');
+const ramRoute = require('./routes/Ram');
+const powerSupplyRoute = require('./routes/PowerSupply');
 const path = require('path');
 
 
@@ -35,6 +38,12 @@ app.use('/processors', processorsRoute);
 app.use('/graphicsCards', graphicsCardRoute);
 
 app.use('/motherboards', motherboardRoute);
+
+app.use('/ssd', ssdRoute);
+
+app.use('/ram', ramRoute);
+
+app.use('/powersupply', powerSupplyRoute);
 
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
