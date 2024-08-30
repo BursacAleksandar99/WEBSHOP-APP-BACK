@@ -32,12 +32,48 @@ router.post('/', upload.single('imageUrl'), async(req, res) => {
     }
 })
 
+router.put('/:id', upload.single("imageUrl", async(req, res) => {
+    const { id } = req.params;
+    const{name, model, memorySize, memoryType, frequency, 
+        price} = req.body;
+    const imageUrl = req.file ? req.file.path.replace(/\\/g, '/') : null;
+
+    try{
+        const ram = await Ram.findByPk(id);
+        if(!ram){
+            return res.status(404).json({error: "Ram not found!"});
+        }
+        await ram.update({
+            name, model, memorySize, memoryType, frequency, 
+        price, imageUrl
+        })
+        res.json(ram);
+    }catch(error){
+        res.status(500).json({error: "Faild to update ram!"});
+    }
+}))
+
 router.get('/', async(req, res) => {
     try{
         const ram = await Ram.findAll();
         res.json(ram);
     }catch(error){
         res.status(500).json({error: "Faild to fetch ram!"});
+    }
+})
+
+router.delete('/:id', async(req, res) => {
+    const { id } = req.params;
+
+    try{
+        const ram = await Ram.findByPk(id);
+        if(!ram){
+            return res.status(404).json({error: "Ram not found!"});
+        }
+        await ram.destroy();
+        res.status(204).send();
+    }catch(error){
+        res.status(500).json({error: "Faild to delete ram!"});
     }
 })
 

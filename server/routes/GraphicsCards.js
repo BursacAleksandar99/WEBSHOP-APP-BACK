@@ -3,6 +3,7 @@ const router = express.Router();
 const { GraphicsCards } = require('../models');
 const multer = require('multer');
 const path = require('path');
+const { error } = require('console');
 
 const storage = multer.diskStorage({
     destination: function(req, file, cb){
@@ -36,6 +37,40 @@ router.get('/', async(req, res) => {
         res.json(graphicsCards);
     } catch(error){
         res.status(500).json({error: "Faild to fetch graphics cards!"});
+    }
+})
+
+router.put('/:id', upload.single('imageUrl'), async (req, res) => {
+    const {id} = req.params;
+    const {name, model, memorySize, 
+        memoryType, boostClock, baseClock, tdp, price, } = req.body;
+    const imageUrl = req.file ? req.file.path.replace(/\\/g, '/') : null;
+
+    try{
+        const graphicCard = await GraphicsCards.findByPk(id);
+        if(!graphicCard){
+            return res.status(404).json({error: "GraphicCard not found!"});
+        }
+        await graphicCard.update({
+            name, model, memorySize, memoryType, boostClock, baseClock, tdp, price, imageUrl
+        })
+        res.json(graphicCard);
+    }catch(error){
+        res.status(500).json({error: "Faild to update graphicCard!"});
+    }
+})
+
+router.delete('/:id', async(req, res) => {
+    const { id } = req.params;
+    try{
+        const graphicCard = await GraphicsCards.findByPk(id);
+        if(!graphicCard){
+            return res.status(404).json({error: "GraphicCard not found!"});
+        }
+        await graphicCard.destroy();
+        res.status(204).send();
+    }catch(error){
+        res.status(500).json({error: "Faild to delete graphicCard!"});
     }
 })
 
