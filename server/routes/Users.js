@@ -22,6 +22,38 @@ router.post("/register", async(req, res) => {
     }
 });
 
+router.put('/change-password', validateToken, async (req, res) => {
+    const{ oldPassword, newPassword } = req.body;
+
+    if (!oldPassword || !newPassword) {
+        return res.status(400).json({ error: "Please provide both old and new passwords!" });
+    }
+    if (!req.user) {
+        return res.status(401).json({ error: "User not logged in!" });
+    }
+
+    try{
+        const user = await Users.findOne({where: {id: req.user.id}});
+        if (!user) {
+            return res.status(404).json({ error: "User not found!" });
+        }
+
+        const isMatch = await bcrypt.compare(oldPassword, user.password);
+        if(!isMatch) {
+            return res.status(400).json({error: "Old password is incorrect!"});
+        }
+
+        const hashedPassword = await bcrypt.hash(newPassword, 10);
+        
+        await Users.update({password: hashedPassword}, {where: {id: req.user.id}});
+
+        res.json({message: "Password successfully updated!"});
+    }catch(error){
+        console.error("Error during password update:", error);
+        res.status(500).json({error: "An error occurred while updating the password!"});
+    }
+})
+
 router.post("/login", async (req, res) => {
     const { username, password} = req.body;
 
