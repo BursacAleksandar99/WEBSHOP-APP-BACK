@@ -13,19 +13,10 @@ const powerSupplyRoute = require('./routes/PowerSupply');
 const path = require('path');
 
 
-// const db = mysql.createConnection({
-//     host: 'localhost',
-//     user: 'root',
-//     password: 'partizan123',
-//     database: 'mynewshopapp'
-// });
 
-// app.get('/', (req, res) => {
-//     res.send("Hello World");
-// });
 
 app.use(cors({
-    origin: 'http://localhost:3000',
+    origin: ['http://localhost:3000', 'https://bursacitshop-front.vercel.app/'],
     methods: [ 'GET', 'POST', 'PUT', 'DELETE'],
 }));
 
@@ -49,18 +40,23 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 
 
-// app.listen(port, () => {
-//     console.log(`Server running on port ${port}`);
-    
-// });
 
-db.sequelize.sync().then(() => {
-    app.listen(port, () => {
-        console.log(`Server running on port ${port}`);
+db.sequelize.authenticate()
+  .then(() => {
+    console.log('Success connecting to database.');
+    
+    // Sinhronizacija modela i pokretanje servera
+    db.sequelize.sync().then(() => {
+        app.listen(port, () => {
+            console.log(`Server running on port ${port}`);
+        });
+    }).catch(err => {
+        console.error('Error synchronizing model with base:', err);
     });
-}).catch(err => {
+  })
+  .catch(err => {
     console.error('Unable to connect to the database:', err);
-});
+  });
 
 
 module.exports = db;

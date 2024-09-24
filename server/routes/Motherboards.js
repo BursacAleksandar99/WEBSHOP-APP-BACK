@@ -15,7 +15,7 @@ const storage = multer.diskStorage({
 })
 const upload = multer({storage: storage});
 
-router.post('/', async(req, res) => {
+router.post('/', upload.single('imageUrl'), async(req, res) => {
     const{name, model, memoryType, maxMemory,
              chipset, cpu, price} = req.body;
     const imageUrl = req.file ? req.file.path: null;
@@ -28,7 +28,7 @@ router.post('/', async(req, res) => {
         });
         res.json(newMotherboard);
     }catch(error){
-        res.status(500).json({error: "Faild to create motherboard"});
+        res.status(500).json({error: "Faild to create motherboard!"});
     }
 })
 
