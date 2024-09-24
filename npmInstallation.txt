@@ -12,6 +12,8 @@ npm install jsonwebtoken
 npm install cors
 npm install multer
 mkdir uploads
+npx sequelize-cli migration:generate --name add-imageUrl-to-graphicscards 
+
 
 
 
@@ -20,3 +22,6 @@ mkdir uploads
 
 
 npm install axios
+npm install @fortawesome/fontawesome-svg-core
+npm install @fortawesome/free-solid-svg-icons
+npm install @fortawesome/react-fontawesome
