@@ -40,16 +40,6 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 
 
-const sequelize = new Sequelize(process.env.DATABASE_URL, {
-  dialect: 'mysql',
-  dialectOptions: {
-    ssl: {
-      require: true,
-      rejectUnauthorized: false
-    }
-  }
-});
-
 db.sequelize.authenticate()
   .then(() => {
     console.log('Success connecting to database.');
