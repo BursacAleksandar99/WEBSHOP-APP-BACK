@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { Users } = require('../models');
-const bcrypt = require("bcrypt");
+const bcryptjs = require("bcryptjs");
 const { where } = require('sequelize');
 const { sign } = require('jsonwebtoken');
 const { validateToken } = require('../middlewares/jwtMiddleware');
@@ -38,12 +38,12 @@ router.put('/change-password', validateToken, async (req, res) => {
             return res.status(404).json({ error: "User not found!" });
         }
 
-        const isMatch = await bcrypt.compare(oldPassword, user.password);
+        const isMatch = await bcryptjs.compare(oldPassword, user.password);
         if(!isMatch) {
             return res.status(400).json({error: "Old password is incorrect!"});
         }
 
-        const hashedPassword = await bcrypt.hash(newPassword, 10);
+        const hashedPassword = await bcryptjs.hash(newPassword, 10);
         
         await Users.update({password: hashedPassword}, {where: {id: req.user.id}});
 
@@ -64,7 +64,7 @@ router.post("/login", async (req, res) => {
             return res.status(404).json({error: "User not found!"});
         }
 
-        const match = await bcrypt.compare(password, user.password);
+        const match = await bcryptjs.compare(password, user.password);
 
         if(!match){
             return res.status(401).json({error: "Incorrect password!"});
