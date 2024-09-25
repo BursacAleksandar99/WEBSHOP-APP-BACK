@@ -11,7 +11,7 @@ const ssdRoute = require('./routes/Ssd');
 const ramRoute = require('./routes/Ram');
 const powerSupplyRoute = require('./routes/PowerSupply');
 const path = require('path');
-
+const { Sequelize } = require('sequelize');
 
 
 
@@ -40,6 +40,15 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 
 
+const sequelize = new Sequelize(process.env.DATABASE_URL, {
+  dialect: 'mysql',
+  dialectOptions: {
+    ssl: {
+      require: true,
+      rejectUnauthorized: false
+    }
+  }
+});
 
 db.sequelize.authenticate()
   .then(() => {
