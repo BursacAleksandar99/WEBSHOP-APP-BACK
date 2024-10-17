@@ -1,19 +1,19 @@
 const express = require('express');
 const router = express.Router();
 const { Users } = require('../models');
-const bcryptjs = require("bcryptjs");
+const bcrypt = require("bcryptjs");
 const { where } = require('sequelize');
 const { sign } = require('jsonwebtoken');
 const { validateToken } = require('../middlewares/jwtMiddleware');
 
 router.post("/register", async(req, res) => {
-    const {username, password} = req.body || {};
-    if(!username || !password) {
-        return res.status(400).json({msg: 'Username and password are required'});
+    const {username, password, email} = req.body || {};
+    if(!username || !password || !email) {
+        return res.status(400).json({msg: 'Username, email and password are required'});
     }
     try{
         const hash = await bcrypt.hash(password, 10);
-        await Users.create({username, password: hash});
+        await Users.create({username, password: hash, email});
         console.log('User created:', Users);
         res.status(201).json({msg: "User registerd successfully"});
     } catch (error){
@@ -64,7 +64,7 @@ router.post("/login", async (req, res) => {
             return res.status(404).json({error: "User not found!"});
         }
 
-        const match = await bcryptjs.compare(password, user.password);
+        const match = await bcrypt.compare(password, user.password);
 
         if(!match){
             return res.status(401).json({error: "Incorrect password!"});
