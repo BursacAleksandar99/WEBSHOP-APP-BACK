@@ -70,6 +70,7 @@ router.delete('/:id', async (req, res) => {
         }
         await processor.destroy();
         res.status(204).send();
+        res.status(200).json("Successfully deleted!");
     } catch(error){
         res.status(500).json({error: "Faild to delete processor!"});
     }

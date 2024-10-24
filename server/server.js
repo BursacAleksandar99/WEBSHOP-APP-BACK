@@ -12,6 +12,7 @@ const ramRoute = require('./routes/Ram');
 const powerSupplyRoute = require('./routes/PowerSupply');
 const path = require('path');
 const { Sequelize } = require('sequelize');
+const orderRoute = require('./routes/Orders');
 
 
 
@@ -37,6 +38,8 @@ app.use('/ram', ramRoute);
 app.use('/powersupply', powerSupplyRoute);
 
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
+app.use('/orders', orderRoute);
 
 
 
