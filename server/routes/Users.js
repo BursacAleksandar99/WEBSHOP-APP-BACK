@@ -87,4 +87,19 @@ router.get("/protected", validateToken, (req, res) => {
         res.send('This is a protected route');
 })
 
+router.delete('/:id', async(req, res) => {
+    const { id } = req.params;
+
+    try{
+        const user = await Users.findByPk(id);
+        if(!user){
+            return res.status(404).json({error: "User not found!"});
+        }
+        await user.destroy();
+        res.status(204).send();
+    }catch(error){
+        res.status(500).json({error: "Faild to delete user!"});
+    }
+})
+
 module.exports = router;

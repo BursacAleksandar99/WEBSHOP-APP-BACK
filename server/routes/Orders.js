@@ -4,7 +4,8 @@ const { Orders, Users } = require('../models');
 
 router.post('/create-order', async(req, res) => {
     const {userId, items, totalPrice} = req.body;
-
+    console.log("Received data: ", {userId, items, totalPrice});
+    
 
     try{
 
@@ -12,18 +13,29 @@ router.post('/create-order', async(req, res) => {
         if(!user){
             return res.status(404).json({error: "User not found!"});
         }
+        console.log("Cart items before stringify", items);
+        console.log("User ID: ", userId);
+        console.log("Total price: ", totalPrice);
+        
+        
+        
 
         const newOrder = await Orders.create({
             userId,
-            items: JSON.stringify(items),
+            items,
             totalPrice
         });
-        // console.log("Order Created: ", newOrder);
+        
+        console.log("Cart items after stringify", items);
+        
+        
         
 
         return res.status(200).json({message: "Order created successfully!", newOrder} );
 
     }catch(error){
+        console.log("Error creating order: ", error.message);
+        
         return res.status(500).json({error: "Failed to create order!"});
     }
 })
